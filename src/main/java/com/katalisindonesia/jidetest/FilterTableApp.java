@@ -5,6 +5,7 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.impl.beans.BeanTableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import com.jidesoft.grid.AutoFilterTableHeader;
+import com.jidesoft.grid.FilterableTableModel;
 import com.jidesoft.grid.IFilterableTableModel;
 import com.jidesoft.grid.QuickTableFilterField;
 import com.jidesoft.grid.SortableTable;
@@ -63,7 +64,12 @@ public class FilterTableApp
 		getTable().putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 //		getTable().setClickCountToStart(2);
 
-		AutoFilterTableHeader tableHeader = new AutoFilterTableHeader(getTable());
+		AutoFilterTableHeader tableHeader = new AutoFilterTableHeader(getTable()) {
+			@Override
+			protected IFilterableTableModel createFilterableTableModel(TableModel model) {
+				return new FilterableTableModel(model);
+			}
+		};
 		tableHeader.setShowFilterIcon(true);
 		tableHeader.setShowFilterName(true);
 		tableHeader.setAllowMultipleValues(true);
